@@ -4,18 +4,20 @@
         <p>Meus contatos</p>
         <button class="btn btn-secundary mb-4 mt-4"  @click="voltar">Home</button>
     </div> -->
-    <ContatoLista />
+    <div>
+        <ContatosLista />
+        <router-view></router-view>
+    </div>
 </template>
 
 
 <script>
 
-import ContatoLista from './../../components/contatos/ContatosLista';
-// import ContatoLista from './../../components/contatos/ContatosLista';
+import ContatosLista from './../../components/contatos/ContatosLista';
 
 export default {
     components: {
-        ContatoLista
+        ContatosLista
     }
     // methods: {
     //     voltar(event) {
@@ -24,8 +26,8 @@ export default {
             // this.$router.push('/');
 
             // O replace substitui a atual podendo usar como um objecto ou somente string
-            // this.$router({ path: '/' });
-            // this.$router.push('/');
+            // this.$router.replace({ path: '/' });
+            // this.$router.replace('/');
             
             // Quantos passo vou avançar registro no histórico
             // this.$router.go(3);
