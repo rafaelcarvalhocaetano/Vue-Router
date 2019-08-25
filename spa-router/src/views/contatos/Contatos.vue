@@ -5,7 +5,7 @@
         <button class="btn btn-secundary mb-4 mt-4"  @click="voltar">Home</button>
     </div> -->
     <div>
-        <ContatosLista />
+        <ContatosLista :busca="busca"/>
         <router-view></router-view>
         <router-view name="contato-detalhes"></router-view>
     </div>
@@ -19,7 +19,8 @@ import ContatosLista from './../../components/contatos/ContatosLista';
 export default {
     components: {
         ContatosLista
-    }
+    },
+    props: ['busca']
     // methods: {
     //     voltar(event) {
             // funciona normalmente as duas mas o push faz a mesma coisa que no IONIC igual ao angular

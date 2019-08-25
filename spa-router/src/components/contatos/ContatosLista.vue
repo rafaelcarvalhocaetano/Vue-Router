@@ -8,6 +8,7 @@
                 class="form-control"
                 placeholder="Buscar contatos"
                 @keyup.enter="buscar"
+                :value="busca"
                 >
         </div>
         <hr class="color-secondary">
@@ -32,6 +33,7 @@ export default {
     components: {
         ContatosListaItens
     },
+    props: ['busca'],
     data() {
         return {
             contatos: [
@@ -44,7 +46,7 @@ export default {
     },
     computed: {
         contatoFilter() {
-            const bsc = this.$route.query.busca;
+            const bsc = this.busca;
             return bsc ? this.contatos.filter(x => x.nome.toLowerCase().includes(bsc.toLowerCase())) : this.contatos
         }
     },
@@ -60,7 +62,7 @@ export default {
         },
         voltar(event) {
             // this.$router.replace({path: '/'})
-            this.$router.back();
+            this.$route.back();
         }
     }
 }
