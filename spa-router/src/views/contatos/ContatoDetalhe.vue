@@ -1,5 +1,11 @@
 <template>
-    <h3 class="font-weight-light">Detalhes sobre o contato número: {{ id }}</h3>
+    <div>
+        <h3 class="font-weight-light">Detalhes sobre o contato número: {{ id }}</h3>
+        <router-link
+            :to="`/contatos/${id}/editar`"
+            class="btn btn-primary"
+        >Editar</router-link>
+    </div>
 </template>
 
 <script>
@@ -24,10 +30,9 @@ export default {
         } else {
             return alert('Sem o Id da do Contato');
         }
+    },
+    created() {
+        // this.id = this.$route.params.id;
     }
-
-    // created() {
-    //     this.id = this.$route.params.id;
-    // }
 }
 </script>
