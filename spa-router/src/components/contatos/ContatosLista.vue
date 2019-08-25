@@ -8,8 +8,7 @@
                 class="form-control"
                 placeholder="Buscar contatos"
                 @keyup.enter="buscar"
-                :value="busca"
-                >
+                :value="busca">
         </div>
         <hr class="color-secondary">
 
@@ -52,17 +51,14 @@ export default {
     },
     methods: {        
         buscar(event) {
-            console.log("TCL: buscar -> event", event)
             this.$router.push({
                 path: '/contatos',
-                query: {
-                    busca: event.target.value
-                }
+                query: { busca: event.target.value }
             });
         },
         voltar(event) {
             // this.$router.replace({path: '/'})
-            this.$route.back();
+            this.$router.back();
         }
     }
 }

@@ -9,9 +9,27 @@
 <script>
 export default {
     props: ['id'],
-    // hooks
-    created() {
-        // console.log(' data ', this.$route.params);;
+    beforeRouteEnter (to, from, next) {
+        // console.log(' beforeRouter-ENTER')
+        // if (to.query.autenticado === 'true') {
+        //     return next();
+        // } else {
+        //     next('/contatos');
+        // }
+        next();
+    },
+    beforeRouteLeave(to, from, next) {
+        console.log(' beforeRouteLeave')
+        const confirmar = window.confirm('Desejá sair da Rota');
+        if (confirmar) {
+            next(true);
+        } else {
+            next()
+        }
     }
+    // hooks
+    // created() {
+    //     // console.log(' data ', this.$route.params);;
+    // }
 }
 </script>
