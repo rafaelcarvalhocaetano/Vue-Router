@@ -14,8 +14,8 @@ import Login from './views/login/Login.vue';
 import EventBus from './event-bus';
 
 // lazy-loader
-const _home = () => import('./views/Home.vue');
-const _contatos = () => import('./views/contatos/Contatos.vue');
+const _home = () => import(/* webpackChunkName: "contatos_home" */'./views/Home.vue');
+const _contatos = () => import(/* webpackChunkName: "contatos_cc" */'./views/contatos/Contatos.vue');
 
 Vue.use(VueRouter);
 
