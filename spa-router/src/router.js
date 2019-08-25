@@ -102,7 +102,7 @@ const router = new VueRouter({
       component: Erro404
     }
   ]
-})
+});
 
 // Rotas Globais
 router.beforeEach((to, from, next) => {
