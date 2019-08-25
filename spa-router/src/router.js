@@ -1,17 +1,21 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Contatos from './views/contatos/Contatos.vue';
+// import Contatos from './views/contatos/Contatos.vue';
 import ContatoDetalhe from './views/contatos/ContatoDetalhe.vue';
 import ContatoHome from './views/contatos/ContatoHome.vue';
 import ContatoEditar from './views/contatos/ContatoEditar.vue';
 import Erro404Contatos from './views/contatos/Erro404Contatos.vue';
 
-import Home from './views/Home.vue';
+// import Home from './views/Home.vue';
 import Erro404 from './views/Erro404.vue';
 import Login from './views/login/Login.vue';
 
 import EventBus from './event-bus';
+
+// lazy-loader
+const _home = () => import('./views/Home.vue');
+const _contatos = () => import('./views/contatos/Contatos.vue');
 
 Vue.use(VueRouter);
 
@@ -23,7 +27,11 @@ const router = new VueRouter({
   routes: [
     { 
       path: '/contatos',
-      component: Contatos,
+      // component: Contatos,
+      // component: () => Promise.resolve({ template: ''}),
+      // LAZY-LOADER
+      // component: () => import('./views/contatos/Contatos.vue'),
+      component: _contatos,
       alias: ['/meus-contatos', '/m-ctt'],
       props: (route) => {
         const bcd = route.query.busca;
@@ -75,7 +83,8 @@ const router = new VueRouter({
     },
     {
       path: '/home', 
-      component: Home,
+      // lazy-loader
+      component: _home,
       name: 'contatos'
     },
     {

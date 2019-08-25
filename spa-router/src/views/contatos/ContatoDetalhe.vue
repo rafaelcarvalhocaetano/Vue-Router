@@ -1,6 +1,9 @@
 <template>
     <div>
         <h3 class="font-weight-light">Detalhes sobre o contato número: {{ id }}</h3>
+        <div class="height 900px">
+            
+        </div>
         <p>Parametro: {{ parametros }}</p>
         <router-link
             :to="`/contatos/${id}/editar`"
