@@ -3,9 +3,13 @@
         <span>{{ contato.nome }}</span>
         <!-- <button class="btn btn-info btn-sm float-right">Detalhes</button> -->
         <!-- OK -->
+        <!-- <router-link 
+            class="btn btn-info btn-sm float-right"
+            :to="`/contatos/${contato.id}`">Detalhes</router-link> -->
+
         <router-link 
             class="btn btn-info btn-sm float-right"
-            :to="`/contatos/${contato.id}`">Detalhes</router-link>
+            :to="{ path: `/contatos/${contato.id}`}">Detalhes</router-link>
 
         <!-- Só funciona com rotas nomeadas -->
         <!-- <router-link 

@@ -12,6 +12,8 @@ import Erro404 from './views/Erro404.vue';
 
 Vue.use(VueRouter);
 
+const extrairParams = routex => ({ id: + routex.params.id });
+
 export default new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
@@ -20,18 +22,38 @@ export default new VueRouter({
       path: '/contatos',
       component: Contatos,
       alias: ['/meus-contatos', '/m-ctt'],
+      props: (route) => {
+        const bcd = route.query.busca;
+        return bcd ? { bcd } : {};
+      },
       children: [
         {
-          path: ':id', 
+          // path: ':id', 
+          path: ':id(\\d+)', 
           component: ContatoDetalhe,
-          name: 'contato'
+          name: 'contato',
+          // props: true
+          props: extrairParams
+          // props: {
+          //   id: 10
+          // }
         },
         {
-          path: ':id/editar', 
-          alias: ':id/mtt',
+          // path: ':id(\\d+)/editar',
+          // path: ':id(\\d+)/editar/:zero*', 
+          path: ':id(\\d+)/editar/:zero+', 
+          alias: ':id(\\d+)/mtt',
           component: {
             default: ContatoEditar,
             'contato-detalhes': ContatoDetalhe
+          },          
+          // props: {
+          //   default: true,
+          //   'contato-detalhes': true
+          // }
+          props: {
+            default: extrairParams,
+            'contato-detalhes': extrairParams
           }
         },
         {
