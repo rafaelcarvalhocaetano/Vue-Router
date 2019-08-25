@@ -9,6 +9,9 @@ import Erro404Contatos from './views/contatos/Erro404Contatos.vue';
 
 import Home from './views/Home.vue';
 import Erro404 from './views/Erro404.vue';
+import Login from './views/login/Login.vue';
+
+import EventBus from './event-bus';
 
 Vue.use(VueRouter);
 
@@ -36,13 +39,20 @@ const router = new VueRouter({
         {
           path: ':id(\\d+)/editar', 
           alias: ':id(\\d+)/mtt',
-          beforeEnter: (to, from, next) => {
+          meta: { requerAutenticacao: true },
+          beforeEnter(to, from, next) {
             console.log(' beforeEnter');
-            if (to.query.id == 1) {
-              return next();              
-            } else {
-              next('/contatos/vai-caraio');
-            }
+            // if (to.query.id == 1) {
+            //   return next();              
+            // } else {
+            //   next('/contatos/vai-caraio');
+            // }
+            // next(true); libera a rota
+            // next(false); bloqueia a rota
+            // next('/contatos');  redirecionamento
+            // next({name: 'contatos'});  redirecionamento 2
+            // next(new Error('Sem permissão'));
+            next();
           },
           component: {
             default: ContatoEditar,
@@ -68,6 +78,10 @@ const router = new VueRouter({
       component: Home,
       name: 'contatos'
     },
+    {
+      path: '/login',
+      component: Login
+    },
     { 
       path: '/', 
       redirect: to => {
@@ -84,11 +98,32 @@ const router = new VueRouter({
 // Rotas Globais
 router.beforeEach((to, from, next) => {
   console.log(' beforeEach ');
+  console.log(' requerAutenticacao ', to.meta.requerAutenticacao);
+  const authHere = EventBus.autenticado;
+  console.log("TCL: authHere", to.matched);
+  if (to.matched.some(rota => rota.meta.requerAutenticacao)) {
+    if (!authHere) {
+      next({
+        path: '/login',
+        query: { redirecionar: to.fullPath }
+      });
+      return;
+    }
+  }
   next();
 });
+
+// router.beforeResolve((to, from, next) => {
+//   console.log(' beforeResolver');
+// });
+
 router.afterEach((to, from) => {
   console.log(' data  afterEach');
-})
+});
+
+router.onError((e) => {
+  console.log(' onError ', e.message);
+});
 export default router;
 
 // export default new VueRouter({
