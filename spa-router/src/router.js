@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 
 const extrairParams = routex => ({ id: + routex.params.id });
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
   routes: [
@@ -28,29 +28,26 @@ export default new VueRouter({
       },
       children: [
         {
-          // path: ':id', 
           path: ':id(\\d+)', 
           component: ContatoDetalhe,
           name: 'contato',
-          // props: true
           props: extrairParams
-          // props: {
-          //   id: 10
-          // }
         },
         {
-          // path: ':id(\\d+)/editar',
-          // path: ':id(\\d+)/editar/:zero*', 
-          path: ':id(\\d+)/editar/:zero+', 
+          path: ':id(\\d+)/editar', 
           alias: ':id(\\d+)/mtt',
+          beforeEnter: (to, from, next) => {
+            console.log(' beforeEnter');
+            if (to.query.id == 1) {
+              return next();              
+            } else {
+              next('/contatos/vai-caraio');
+            }
+          },
           component: {
             default: ContatoEditar,
             'contato-detalhes': ContatoDetalhe
-          },          
-          // props: {
-          //   default: true,
-          //   'contato-detalhes': true
-          // }
+          },
           props: {
             default: extrairParams,
             'contato-detalhes': extrairParams
@@ -66,10 +63,11 @@ export default new VueRouter({
         }
       ]
     },
-    // { path: '/contatos/:id', component: ContatoDetalhe},
-    // {path: '/contatos', redirect: '/meus-contatos'},
-    {path: '/home', component: Home , name: 'contatos'},
-    // { path: '/', redirect: '/contatos'}
+    {
+      path: '/home', 
+      component: Home,
+      name: 'contatos'
+    },
     { 
       path: '/', 
       redirect: to => {
@@ -79,9 +77,88 @@ export default new VueRouter({
     {
       path: '*',
       component: Erro404
-      // redirect: to => {
-      //   return '/contatos'
-      // }
     }
   ]
 })
+
+// Rotas Globais
+router.beforeEach((to, from, next) => {
+  console.log(' beforeEach ');
+  next();
+});
+router.afterEach((to, from) => {
+  console.log(' data  afterEach');
+})
+export default router;
+
+// export default new VueRouter({
+//   mode: 'history',
+//   linkActiveClass: 'active',
+//   routes: [
+//     { 
+//       path: '/contatos',
+//       component: Contatos,
+//       alias: ['/meus-contatos', '/m-ctt'],
+//       props: (route) => {
+//         const bcd = route.query.busca;
+//         return bcd ? { bcd } : {};
+//       },
+//       children: [
+//         {
+//           // path: ':id', 
+//           path: ':id(\\d+)', 
+//           component: ContatoDetalhe,
+//           name: 'contato',
+//           // props: true
+//           props: extrairParams
+//           // props: {
+//           //   id: 10
+//           // }
+//         },
+//         {
+//           // path: ':id(\\d+)/editar',
+//           // path: ':id(\\d+)/editar/:zero*', 
+//           path: ':id(\\d+)/editar/:zero+', 
+//           alias: ':id(\\d+)/mtt',
+//           component: {
+//             default: ContatoEditar,
+//             'contato-detalhes': ContatoDetalhe
+//           },          
+//           // props: {
+//           //   default: true,
+//           //   'contato-detalhes': true
+//           // }
+//           props: {
+//             default: extrairParams,
+//             'contato-detalhes': extrairParams
+//           }
+//         },
+//         {
+//           path: '', 
+//           component: ContatoHome
+//         },
+//         {
+//           path: '/contatos*',
+//           component: Erro404Contatos
+//         }
+//       ]
+//     },
+//     // { path: '/contatos/:id', component: ContatoDetalhe},
+//     // {path: '/contatos', redirect: '/meus-contatos'},
+//     {path: '/home', component: Home , name: 'contatos'},
+//     // { path: '/', redirect: '/contatos'}
+//     { 
+//       path: '/', 
+//       redirect: to => {
+//         return '/contatos'
+//       } 
+//     },
+//     {
+//       path: '*',
+//       component: Erro404
+//       // redirect: to => {
+//       //   return '/contatos'
+//       // }
+//     }
+//   ]
+// })

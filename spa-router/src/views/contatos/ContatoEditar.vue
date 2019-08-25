@@ -11,7 +11,7 @@ export default {
     props: ['id'],
     // hooks
     created() {
-        console.log(' data ', this.$route.params);
+        // console.log(' data ', this.$route.params);;
     }
 }
 </script>
